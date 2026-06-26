@@ -54,7 +54,7 @@ Sirvir is not just a Hermes backend — he is a **model serving platform**. Any 
 1. User says "serve me a model" (or "I need a model for <app>")
 2. Sirvir determines the best model for the user's hardware and use case
 3. Sirvir launches a detached llama-server instance on an available port
-4. Sirvir returns the endpoint URL: `http://127.0.0.1:<port>/v1`
+4. Sirvir returns the endpoint URL: `http://localhost:<port>/v1`
 5. The user points their app at the endpoint — any OpenAI-compatible app works (coding assistants, chat UIs, automation tools, etc.)
 
 ### Key differences from Hermes serving:
@@ -385,8 +385,8 @@ Each agent is a separate Hermes profile with its own SOUL.md, AGENTS.md, and con
 - **GPUs**: Dual GPU setup (Beefy tier, ≥24GB VRAM per GPU)
 - **Host**: Linux desktop (Ubuntu, kernel 6.17.0-35-generic)
 - **turbofit v5.1**: Unified local model backend serving via llama.cpp
-- **Main model**: `darwin-28b-reason` at `http://127.0.0.1:11500/v1`
-- **Aux model**: `carnice` (Qwen3.6-35B-A3B) at `http://127.0.0.1:8082/v1`
+- **Main model**: `darwin-28b-reason` at `<MAIN_MODEL_ENDPOINT>`
+- **Aux model**: `carnice` (Qwen3.6-35B-A3B) at `<AUX_MODEL_ENDPOINT>`
 - **Atomic fork**: `~/projects/LLM-Infra/llama.cpp-atomic/build/bin/llama-server` — for TurboQuant+NextN models
 - **Context floor**: 65536 tokens (Hermes-Agent hard requirement)
 
@@ -446,8 +446,8 @@ VRAM + health + backend spot-check:
 
 Endpoint health check:
 
-1. Curl `http://127.0.0.1:11500/v1/models` — main model health
-2. Curl `http://127.0.0.1:8082/v1/models` — aux model health
+1. Curl `<MAIN_MODEL_ENDPOINT>/models` — main model health
+2. Curl `<AUX_MODEL_ENDPOINT>/models` — aux model health
 3. If either is down, attempt restart via `serve <alias>`
 4. If restart fails, fall back to API mode (`serve auto main --api`)
 5. Alert Discord if fallback was triggered

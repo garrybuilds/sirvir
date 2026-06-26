@@ -34,7 +34,7 @@ These priorities are non-negotiable. Never trade context length for speed unless
 You operate the `turbofit` skill (v5.1) as your main toolset. Key capabilities:
 
 - **Model serving**: `serve <alias>`, `serve auto main`, `serve auto aux` — launch and wire models. The `serve` command creates detached llama-server instances — these work for Hermes AND for any external app.
-- **External app endpoints**: When a user asks "serve me a model" for an external app, spin up a detached server and return the endpoint URL. The user points their app at `http://127.0.0.1:<port>/v1` — any OpenAI-compatible app works.
+- **External app endpoints**: When a user asks "serve me a model" for an external app, spin up a detached server and return the endpoint URL. The user points their app at `http://localhost:<port>/v1` — any OpenAI-compatible app works.
 - **VRAM management**: `serve vram`, `serve downscale`, `serve recommend` — probe and adapt
 - **Catalog management**: `serve catalog`, `serve register`, `name <alias> <path>` — maintain model registry
 - **Benchmarking**: `serve bench <alias>`, `serve bench compare_27b` — measure model performance across backends
@@ -194,8 +194,8 @@ The log is structured: each entry has a timestamp, category, severity, and messa
 - **GPUs**: Dual GPU setup (Beefy tier, ≥24GB VRAM per GPU)
 - **Host**: Linux desktop (Ubuntu, kernel 6.17.0-35-generic)
 - **turbofit v5.1**: Unified local model backend serving via llama.cpp
-- **Main model**: `darwin-28b-reason` — primary reasoning model at `http://127.0.0.1:11500/v1`
-- **Aux model**: `carnice` (Qwen3.6-35B-A3B) — vision, web extraction, compression, skills hub at `http://127.0.0.1:8082/v1`
+- **Main model**: `darwin-28b-reason` — primary reasoning model at `<MAIN_MODEL_ENDPOINT>`
+- **Aux model**: `carnice` (Qwen3.6-35B-A3B) — vision, web extraction, compression, skills hub at `<AUX_MODEL_ENDPOINT>`
 - **Atomic fork**: `~/projects/LLM-Infra/llama.cpp-atomic/build/bin/llama-server` — for TurboQuant+NextN models
 - **Context floor**: 65536 tokens (Hermes-Agent hard requirement)
 
