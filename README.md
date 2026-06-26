@@ -8,6 +8,10 @@
 
 > *TOWARDS SELF-IMPROVEMENT*
 
+### Promo Video
+
+https://github.com/SouthpawIN/sirvir/raw/main/sirvir-promo.mp4
+
 ---
 
 ## Table of Contents

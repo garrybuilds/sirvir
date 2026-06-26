@@ -1,5 +1,5 @@
 # distribution.yaml — Sirvir profile distribution manifest
-# Install with: hermes skills tap add SouthpawIN/sirvir && hermes skills install sirvir
+# Install with: hermes profile install https://github.com/SouthpawIN/sirvir
 name: sirvir
 version: "1.0.0"
 description: >-
@@ -46,12 +46,14 @@ distribution_owned:
   - AGENTS.md
   - config.yaml
   - distribution.yaml
+  - profile.png
+  - banner.png
+  - sirvir-promo.mp4
   - skills/sirvir-bench/
   - skills/sirvir-research/
   - skills/sirvir-scale/
   - skills/sirvir-serve/
   - skills/sirvir-budget/
-
 post_install:
   - command: echo "Sirvir profile installed. Start with hermes -p sirvir"
     description: Display usage instructions
