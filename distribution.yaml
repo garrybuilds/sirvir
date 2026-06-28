@@ -12,8 +12,6 @@ license: MIT
 homepage: https://github.com/SouthpawIN/sirvir
 repo: https://github.com/SouthpawIN/sirvir
 
-source: https://github.com/SouthpawIN/sirvir
-
 hermes_requires: ">=0.12.0"
 
 env_requires:
@@ -48,16 +46,13 @@ distribution_owned:
   - AGENTS.md
   - config.yaml
   - distribution.yaml
-  - profile.png
-  - banner.png
-  - sirvir-promo.mp4
   - skills/sirvir/
   - skills/sirvir-bench/
   - skills/sirvir-research/
   - skills/sirvir-scale/
   - skills/sirvir-serve/
   - skills/sirvir-budget/
-  - skills/turbofit/
+
 post_install:
   - command: echo "Sirvir profile installed. Start with hermes -p sirvir"
     description: Display usage instructions
