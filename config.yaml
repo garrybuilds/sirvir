@@ -1,0 +1,183 @@
+# Sirvir profile config — ships with the profile distribution
+# Customized by turbofit's `serve auto main` / `serve auto aux` commands at runtime.
+#
+# This config assumes turbofit is running:
+#   Main model (Darwin): http://127.0.0.1:11500/v1
+#   Aux model  (Carnice): http://127.0.0.1:8082/v1
+
+_config_version: 23
+
+# ── Main model ──────────────────────────────────────────────
+model:
+  base_url: http://127.0.0.1:11500/v1
+  default: Darwin-28B-REASON.Q4_K_M.gguf
+  provider: custom:llama-main
+
+# ── Custom providers ────────────────────────────────────────
+# These MUST be defined here — profiles have their own config namespace.
+# Without these, custom:llama-main and custom:llama-aux don't resolve.
+custom_providers:
+  - name: llama-main
+    base_url: http://127.0.0.1:11500/v1
+    api_key: not-needed
+  - name: llama-aux
+    base_url: http://127.0.0.1:8082/v1
+    api_key: not-needed
+
+# ── Auxiliary model (Carnice — vision, compression, etc.) ──
+auxiliary:
+  approval:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 30
+  compression:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 120
+  curator:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 600
+  mcp:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 30
+  session_search:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    max_concurrency: 3
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 30
+  skills_hub:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 30
+  title_generation:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 30
+  vision:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    download_timeout: 30
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 120
+  web_extract:
+    api_key: not-needed
+    base_url: http://127.0.0.1:8082/v1
+    extra_body: {}
+    model: qwen3.6-35b-a3b
+    provider: custom:llama-aux
+    timeout: 360
+
+# ── Mixture of Agents presets ──────────────────────────────
+moa:
+  default_preset: local
+  presets:
+    default:
+      reference_models:
+        - provider: custom:llama-main
+          model: Darwin-28B-REASON.Q4_K_M.gguf
+        - provider: nous
+          model: deepseek/deepseek-v4-pro
+      aggregator:
+        provider: nous
+        model: z-ai/glm-5.2
+      reference_temperature: 0.6
+      aggregator_temperature: 0.4
+      max_tokens: 8192
+      enabled: true
+    local:
+      reference_models:
+        - provider: custom:llama-aux
+          model: Carnice-Qwen3.6-MoE-35B-A3B-APEX-MTP-I-Nano.gguf
+      aggregator:
+        provider: custom:llama-main
+        model: Darwin-28B-REASON.Q4_K_M.gguf
+      reference_temperature: 0.7
+      aggregator_temperature: 0.3
+      max_tokens: 8192
+      enabled: true
+    reasoning:
+      reference_models:
+        - provider: custom:llama-main
+          model: Darwin-28B-REASON.Q4_K_M.gguf
+        - provider: nous
+          model: deepseek/deepseek-v4-pro
+        - provider: nous
+          model: qwen/qwen3.7-max
+      aggregator:
+        provider: nous
+        model: z-ai/glm-5.2
+      reference_temperature: 0.5
+      aggregator_temperature: 0.3
+      max_tokens: 8192
+      enabled: true
+    fast:
+      reference_models:
+        - provider: custom:llama-aux
+          model: Carnice-Qwen3.6-MoE-35B-A3B-APEX-MTP-I-Nano.gguf
+      aggregator:
+        provider: nous
+        model: deepseek/deepseek-v4-flash
+      reference_temperature: 0.6
+      aggregator_temperature: 0.4
+      max_tokens: 4096
+      enabled: true
+    review:
+      reference_models:
+        - provider: custom:llama-main
+          model: Darwin-28B-REASON.Q4_K_M.gguf
+      aggregator:
+        provider: nous
+        model: z-ai/glm-5.2
+      reference_temperature: 0.3
+      aggregator_temperature: 0.2
+      max_tokens: 8192
+      enabled: true
+
+# ── Toolsets ───────────────────────────────────────────────
+platform_toolsets:
+  cli:
+    - terminal
+    - file
+    - web
+    - vision
+    - skills
+    - memory
+    - session_search
+    - delegation
+    - cronjob
+    - todo
+    - clarify
+
+# ── Terminal ────────────────────────────────────────────────
+terminal:
+  cwd: /home
+
+# ── Display ─────────────────────────────────────────────────
+display:
+  personality: kawaii
+  skin: poseidon
