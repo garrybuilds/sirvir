@@ -51,11 +51,13 @@ distribution_owned:
   - profile.png
   - banner.png
   - sirvir-promo.mp4
+  - skills/sirvir/
   - skills/sirvir-bench/
   - skills/sirvir-research/
   - skills/sirvir-scale/
   - skills/sirvir-serve/
   - skills/sirvir-budget/
+  - skills/turbofit/
 post_install:
   - command: echo "Sirvir profile installed. Start with hermes -p sirvir"
     description: Display usage instructions
