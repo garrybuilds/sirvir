@@ -1,0 +1,79 @@
+# Sirvir Budget Configuration
+# Source of truth for monthly budget, alert thresholds, and planning anchors.
+# Sirvir recalibrates all projections and alerts against this file on every change.
+#
+# FIRST-TIME SETUP: Run the audit to discover your fleet, then fill in your values.
+#   python3 ~/.hermes/profiles/sirvir/skills/sirvir-budget/scripts/verify_budget_docs.py
+#   python3 ~/.hermes/profiles/sirvir/skills/sirvir-budget/scripts/audit_fleet.py
+
+# ── Monthly budget ──────────────────────────────────────────────
+monthly_budget_usd: 50.00          # YOUR monthly API budget — change this
+currency: USD
+cycle_day: 1                        # 1st of month default (reset day)
+
+# ── Alert thresholds (fraction of monthly_budget_usd) ───────────
+alert_thresholds:
+  yellow: 0.75                      # 75% — trending toward limit
+  orange: 0.90                      # 90% — nearly exhausted
+  red: 1.00                         # 100% — exhausted, switch to free only
+
+# ── Post-upgrade scorecard anchors ───────────────────────────────
+# These are the operational thresholds for the weekly budget scorecard.
+# Adjust these to match your budget and risk tolerance.
+scorecard:
+  # Monthly spend projection thresholds
+  spend_green: 40.00                # below this = healthy
+  spend_yellow: 45.00               # below this = expected band
+  spend_orange: 50.00               # below this = watch
+  spend_red: 60.00                  # above this = intervene
+
+  # Effective cost per 1M tokens
+  effective_rate_green: 0.12        # below this = strong economics
+  effective_rate_yellow: 0.125      # below this = expected band
+  effective_rate_orange: 0.14       # below this = degrading
+  effective_rate_red: 0.15          # above this = intervene
+
+  # Premium-lane share (fraction of total traffic)
+  # "Premium" = your most expensive model lane
+  premium_share_green: 0.70         # below this = healthy mix
+  premium_share_yellow: 0.80        # below this = acceptable
+  premium_share_orange: 0.90        # below this = watch
+  premium_share_red: 1.00           # above this = intervene
+
+  # Cache performance target
+  cache_rate_green: 0.80            # above this = strong
+  cache_rate_yellow: 0.70           # above this = acceptable
+  cache_rate_orange: 0.60           # above this = watch
+  cache_rate_red: 0.00              # below this = intervene
+
+# ── Cache-aware planning bands ($/1M effective) ─────────────────
+# Used for converting beta GPU-time billing to production token-billing forecasts.
+# These are scenario-planning rates, not market prices.
+# Adjust based on your expected cache performance and provider pricing.
+planning_bands:
+  optimistic: 0.11                  # best-case post-cache effective rate
+  base: 0.125                       # expected post-cache effective rate
+  conservative: 0.14                # worst-case post-cache effective rate
+
+# ── Beta period tracking (optional) ──────────────────────────────
+# If you're on a subscription/GPU-time provider where state.db shows $0,
+# fill this in to compute effective cost from subscription / token volume.
+beta:
+  active: false                      # true = fleet is in beta, costs are subscription-based
+  provider: ""                       # e.g. "ollama-cloud"
+  subscription_cost_usd: 0.00        # weekly/monthly subscription cost
+  billing_period: weekly             # weekly | monthly
+  notes: ""
+
+# ── Production provider (post-beta, optional) ────────────────────
+production:
+  primary_provider: ""               # provider after beta cutover (e.g. "nous", "openrouter")
+  cutover_date: ""                   # planned cutover date (YYYY-MM-DD)
+  notes: ""
+
+# ── Notes ────────────────────────────────────────────────────────
+# - User adjustable: Sirvir recalibrates on change.
+# - The post-upgrade scorecard reads its thresholds from here.
+# - The cache-aware budget ladder reads planning_bands from here.
+# - During beta, effective cost = subscription_cost / total_tokens (computed live).
+# - Run scripts/audit_fleet.py to discover your profiles and current spend.

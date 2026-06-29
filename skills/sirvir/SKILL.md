@@ -55,7 +55,7 @@ hermes -p sirvir
 
 ## Sub-Skills
 
-Sirvir ships with 5 focused sub-skills alongside the turbofit core:
+Sirvir ships with 6 focused sub-skills alongside the turbofit core:
 
 - **turbofit** — Core serving engine (serve, catalog, daemon, scaling)
 - **sirvir-bench** — Benchmarking workflow and score interpretation
